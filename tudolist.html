@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 载入vue2.0js文件 -->
+    <script src="js/vue.js"></script>
+    <style>
+        .edit {
+            display: block;
+            width: 80%;
+            height: 35px;
+            line-height: 35px;
+            margin: 30px auto;
+            box-sizing: border-box;
+            padding-left: 4px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            outline: 0;
+            box-shadow: 5px 5px 5px #ccc;
+        }
+        
+        .list {
+            margin: 0 auto;
+        }
+        
+        .unit {
+            position: relative;
+            padding: 10px 0;
+            border-bottom: 1px solid #efefef;
+        }
+        
+        .unit:last-child {
+            border-bottom: 0;
+        }
+        
+        .finish {
+            text-decoration: line-through;
+            color: #ccc;
+        }
+        
+        .del {
+            background: red;
+            text-decoration: none;
+            position: absolute;
+            right: 0;
+            font-size: 12px;
+            outline: 0;
+            padding: 2px 5px;
+            border-radius: 5px;
+            color: #fff;
+        }
+        
+        .empty {
+            font-size: 13px;
+            color: #ccc;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 输入框 -->
+        <input type="text" class="edit" v-model="task.content" @keydown.enter="addTask" placeholder="编写任务"> 展示任务列表
+        <!-- 展示任务列表 -->
+        <div class="list">
+            <div class="unit" v-for="(item,index) in list">
+                <input type="checkbox" @click="changeStatus(index)">
+                <span :class="{'finish':item.finished}">{{item.content}}</span>
+                <button class="del" @click="removeTask(index)">删除</button>
+            </div>
+        </div>
+        <!-- 无任务时展示文字 -->
+        <p class="empty" v-if="list.length===0">暂无任务</p>
+    </div>
+
+    <script>
+        // 总结思路：
+        // 1. 输入框输入任务， 按下回车任务进入列表；
+        // 2. 任务列表展示任务， 当该任务被选中后改变选中， 展示选中后的样式， 有删除按钮；
+        // 3. 删除按钮删除被点击的事件；
+        // 4. 没有任务时列表展示暂无任务的文字；
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                // 任务
+                task: {
+                    content: '', //任务内容为空
+                    finished: false, //未完成
+                    delete: false //未删除
+                },
+                // 任务列表
+                list: []
+            },
+            methods: {
+                // 添加任务
+                addTask() {
+                    // 当按键时task存入list中
+                    this.list.push(this.task);
+                    // 存入list后，充值task
+                    this.task = {
+                        content: '', //任务内容为空
+                        finished: false, //未完成
+                        delete: false //未删除
+                    }
+                },
+                changeStatus(index) {
+                    //改变选中后的样式
+                    let curStatus = this.list[index].finished;
+                    this.list[index].finished = !curStatus;
+                },
+                removeTask(index) {
+                    // 删除任务
+                    this.list.splice(index, 1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
