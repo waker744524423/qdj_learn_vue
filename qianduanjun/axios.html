@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+
+    <script>
+        axios.get('/detail?id=10').then(function(res) {
+            // 成功获取数据
+            console.log(res);
+
+        }).catch(function(err) {
+            // 请求错误
+            console.log(err);
+
+        });
+
+        axios.get('/detail', {
+            // 参数
+            params: {
+                id: 10
+            }
+        }).then(function(res) {
+            // 成功获取数据
+            console.log(res);
+
+        }).catch(function(err) {
+            // 请求错误
+            console.log(err);
+
+        });
+
+        // 执行post请求
+        axios.post('/add', {
+            name: '前端君',
+            age: 26
+        }).then(function(res) {
+            console.log(res);
+
+        }).catch(function(err) {
+            console.log(err);
+
+        });
+
+        function getProfile() {
+            // 请求1
+            return axios.get('/profile');
+        }
+
+        function getUser() {
+            // 请求2
+            return axios.get('/user');
+        }
+
+        // 并发请求
+        axios.all([
+            getProfile(),
+            getUser()
+        ]).then(axios.spread((res1, res2) => {
+            // 两个请求现在已完成
+            console.log(res1);
+            console.log(res2);
+
+        }))
+    </script>
+</body>
+
+</html>
