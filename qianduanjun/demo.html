@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
+    <script src="../js/vue.js"></script>
+=======
+    <script src="js/vue.js"></script>
+>>>>>>> 2bcdd67a41f50800539da7a38065d0577b8300d0
+</head>
+
+<body>
+    <div id="app">
+        公众号：{{name}}
+        <br>
+        <input type="text" v-model='name'>
+        <br>
+        <!-- <card></card>
+        <card></card>
+        <card></card> -->
+        <br>
+        <div>
+            数字1：{{ num.num1|toLnt }}<br> 数字2：{{ num.num2|toLnt }}<br> 数字3：{{ num.num3|toLnt }}
+            <br> {{sum}}
+            <br> {{count}}
+            <br>
+            <button @click="add">++</button>
+        </div>
+    </div>
+
+    <script>
+        // 注册一个组件；注意：公共组件的写法必须写在构造器之前加载
+        Vue.component = ('card', {
+            template: `<div>
+            <img src="logo.png" alt="">
+            <h2>web前端教程</h2>
+            <p>这里是描述，很长的描述</p>
+            <button>我是按钮</button>
+        </div>`
+        })
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                name: 'web前端君',
+                num: {
+                    num1: 12.8989,
+                    num2: 74.333,
+                    num3: 89678.998
+                },
+                count: 0
+            },
+            filters: {
+                toLnt(num) {
+                    return parseInt(num);
+                }
+            },
+            computed: {
+                sum() {
+                    return this.num.num1 + this.num.num2 + this.num.num3;
+                }
+            },
+            methods: {
+                add() {
+                    return this.count++;
+                }
+            },
+            watch: {
+                count() {
+                    return console.log(this.count);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .task {
+            width: 80%;
+            height: 35px;
+            line-height: 35px;
+            box-sizing: border-box;
+            display: block;
+            margin: 30px auto;
+            box-shadow: 5px 5px 5px #ccc;
+            outline: 0;
+            border: 1px solid #ccc;
+            padding: 4px;
+        }
+        
+        .list {
+            width: 80%;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .unit {
+            position: relative;
+            padding: 10px 0;
+            border-bottom: 1px solid #efefef;
+        }
+        
+        .unit:last-child {
+            border-bottom: 0;
+        }
+        
+        .taskList {
+            text-decoration: line-through;
+            color: #ccc;
+        }
+        
+        .del {
+            background: red;
+            color: #fff;
+            padding: 3px 10px;
+            outline: none;
+            border: 0;
+            position: absolute;
+            right: 0;
+        }
+        
+        .noneTask {
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" class="task" v-model="task.content" @keydown.enter="addTask" placeholder="编写任务">
+        <div class="list">
+            <div class="unit" v-for="(item, index) in list">
+                <input type="checkbox" @click="changeTask(index)">
+                <span :class="{'taskList':item.taskList}">{{item.content}}</span>
+                <button class="del" @click="removeTask(index)">删除</button>
+            </div>
+        </div>
+        <p class="noneTask" v-if="list.length===0">暂无任务</p>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                task: {
+                    content: '',
+                    taskList: false,
+                    delete: false
+                },
+                list: []
+            },
+            methods: {
+                addTask() {
+                    this.list.push(this.task);
+                    this.task = {
+                        content: '',
+                        taskList: false,
+                        delete: false
+                    }
+                },
+                changeTask(index) {
+                    let taskNewList = this.list[index].taskList;
+                    this.list[index].taskList = !taskNewList;
+                },
+                removeTask(index) {
+                    this.list.splice(index, 1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
